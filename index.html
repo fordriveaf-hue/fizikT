@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <title>جزوه‌های فیزیک تابستان</title>
 <style>
-body { font-family: Vazirmatn; background:#eef2ff; padding:20px; }
+body { font-family: sans-serif; background:#eef2ff; padding:20px; direction:rtl; }
 .box { max-width:700px; margin:auto; background:white; padding:20px; border-radius:14px; }
 .file-item { background:#f3f6ff; padding:12px; border-radius:10px; margin:10px 0;
-display:flex; justify-content:space-between; }
+display:flex; justify-content:space-between; align-items:center; }
 a.btn { text-decoration:none; background:#007bff; color:white; padding:6px 12px; border-radius:6px; }
 </style>
 </head>
@@ -24,13 +24,21 @@ a.btn { text-decoration:none; background:#007bff; color:white; padding:6px 12px;
 
 <script>
 const owner = "fordriveaf-hue";
-const repo  = "upload";
+const repo  = "fizikT";
 
 async function loadFiles() {
   const list = document.getElementById("fileList");
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents`);
+
+  // مسیر درست برای پوشه files
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/files`);
   const files = await res.json();
+
   list.innerHTML = "";
+
+  if (!Array.isArray(files)) {
+    list.innerHTML = "⚠️ خطا در دریافت فایل‌ها";
+    return;
+  }
 
   files.forEach(f => {
     list.innerHTML += `
@@ -41,6 +49,7 @@ async function loadFiles() {
     `;
   });
 }
+
 loadFiles();
 </script>
 </body>

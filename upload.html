@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>فایل‌های فیزیک تابستان استاد توکلی</title>
 <style>
-body { font-family: Vazirmatn; background:#eef2ff; padding:20px; }
+body { font-family: sans-serif; background:#eef2ff; padding:20px; }
 .box { max-width:700px; margin:auto; background:white; padding:20px; border-radius:14px; }
 input,button { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc; }
 button { background:#007bff; color:white; border:none; }
@@ -34,10 +34,10 @@ button { background:#007bff; color:white; border:none; }
 
 <script>
 const owner = "fordriveaf-hue";
-const repo  = "upload";
+const repo  = "fizikT";
 
-// ⚠️ توکن خودت را اینجا بگذار
-const TOKEN = "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";
+// توکن خودت را اینجا بگذار
+const TOKEN = "YOUR_GITHUB_TOKEN_HERE";
 
 async function uploadFile() {
   const file = document.getElementById("fileInput").files[0];
@@ -53,16 +53,25 @@ async function uploadFile() {
 
   const base64 = await toBase64(file);
 
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${name}`, {
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/files/${name}`, {
     method: "PUT",
-    headers: { "Authorization": `token ${TOKEN}` },
+    headers: {
+      "Authorization": `token ${TOKEN}`,
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       message: "upload file",
       content: base64
     })
   });
 
-  status.innerHTML = res.ok ? "✅ آپلود شد" : "⚠️ خطا در آپلود";
+  if (!res.ok) {
+    const err = await res.json();
+    console.log(err);
+    status.innerHTML = "⚠️ خطا در آپلود: " + (err.message || "Unknown error");
+  } else {
+    status.innerHTML = "✅ آپلود شد";
+  }
 }
 
 function toBase64(file) {

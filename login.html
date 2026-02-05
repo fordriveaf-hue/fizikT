@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>ورود</title>
+<style>
+body { font-family: Vazirmatn; background:#eef2ff; padding:20px; }
+.box { max-width:350px; margin:auto; background:white; padding:20px; border-radius:14px; }
+input,button { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc; }
+button { background:#007bff; color:white; border:none; }
+</style>
+</head>
+
+<body>
+<div class="box">
+  <h2>ورود به پنل آپلود</h2>
+  <input id="password" type="password" placeholder="رمز عبور">
+  <button onclick="login()">ورود</button>
+  <div id="msg" style="color:red;"></div>
+</div>
+
+<script>
+function login() {
+  const saved = localStorage.getItem("upload_pass") || "12345678";
+  const pass = document.getElementById("password").value.trim();
+
+  if (pass === saved) {
+    window.location.href = "/upload";
+  } else {
+    document.getElementById("msg").innerText = "رمز اشتباه است";
+  }
+}
+</script>
+</body>
+</html>

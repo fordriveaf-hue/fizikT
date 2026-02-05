@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>فایل‌های فیزیک تابستان استاد توکلی</title>
+<style>
+body { font-family: Vazirmatn; background:#eef2ff; padding:20px; }
+.box { max-width:700px; margin:auto; background:white; padding:20px; border-radius:14px; }
+input,button { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc; }
+button { background:#007bff; color:white; border:none; }
+</style>
+</head>
+
+<body>
+<div class="box">
+  <h2>📤 فایل‌های فیزیک تابستان استاد توکلی</h2>
+
+  <input type="file" id="fileInput">
+  <input type="text" id="fileName" placeholder="نام فایل در گیت‌هاب (اختیاری)">
+  <button onclick="uploadFile()">آپلود</button>
+
+  <div id="status"></div>
+
+  <hr>
+
+  <h3>🔐 تغییر رمز عبور</h3>
+  <input id="newPass" type="password" placeholder="رمز جدید">
+  <button onclick="changePass()">ذخیره رمز جدید</button>
+  <div id="passMsg"></div>
+
+  <hr>
+  <a href="/">بازگشت به دانلود</a>
+</div>
+
+<script>
+const owner = "fordriveaf-hue";
+const repo  = "fizikT";
+
+// ⚠️ توکن خودت را اینجا بگذار
+const TOKEN = "YOUR_GITHUB_TOKEN_HERE";
+
+async function uploadFile() {
+  const file = document.getElementById("fileInput").files[0];
+  const name = document.getElementById("fileName").value.trim() || file.name;
+  const status = document.getElementById("status");
+
+  if (!file) {
+    status.innerHTML = "لطفاً فایل انتخاب کن";
+    return;
+  }
+
+  status.innerHTML = "⏳ در حال آپلود...";
+
+  const base64 = await toBase64(file);
+
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${name}`, {
+    method: "PUT",
+    headers: { "Authorization": `token ${TOKEN}` },
+    body: JSON.stringify({
+      message: "upload file",
+      content: base64
+    })
+  });
+
+  status.innerHTML = res.ok ? "✅ آپلود شد" : "⚠️ خطا در آپلود";
+}
+
+function toBase64(file) {
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(",")[1]);
+    r.readAsDataURL(file);
+  });
+}
+
+function changePass() {
+  const newPass = document.getElementById("newPass").value.trim();
+  if (newPass.length < 4) {
+    passMsg.innerHTML = "رمز باید حداقل ۴ رقم باشد";
+    return;
+  }
+  localStorage.setItem("upload_pass", newPass);
+  passMsg.innerHTML = "✅ رمز جدید ذخیره شد";
+}
+</script>
+</body>
+</html>

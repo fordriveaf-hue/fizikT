@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>ورود</title>
 <style>
-body { font-family: Vazirmatn; background:#eef2ff; padding:20px; }
+body { font-family: sans-serif; background:#eef2ff; padding:20px; }
 .box { max-width:350px; margin:auto; background:white; padding:20px; border-radius:14px; }
 input,button { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc; }
 button { background:#007bff; color:white; border:none; }
@@ -25,6 +25,7 @@ function login() {
   const pass = document.getElementById("password").value.trim();
 
   if (pass === saved) {
+    localStorage.setItem("logged_in", "yes");   // ← ورود ثبت می‌شود
     window.location.href = "/upload";
   } else {
     document.getElementById("msg").innerText = "رمز اشتباه است";

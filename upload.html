@@ -33,6 +33,12 @@ button { background:#007bff; color:white; border:none; }
 </div>
 
 <script>
+<script>
+// جلوگیری از ورود مستقیم به صفحه آپلود
+if (!localStorage.getItem("logged_in")) {
+    window.location.href = "/login";
+}
+  
 const owner = "fordriveaf-hue";
 const repo  = "fizikT";
 

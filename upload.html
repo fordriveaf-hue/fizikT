@@ -33,17 +33,11 @@ button { background:#007bff; color:white; border:none; }
 </div>
 
 <script>
-<script>
-// جلوگیری از ورود مستقیم به صفحه آپلود
-if (!localStorage.getItem("logged_in")) {
-    window.location.href = "/login";
-}
-  
 const owner = "fordriveaf-hue";
 const repo  = "fizikT";
 
 // توکن خودت را اینجا بگذار
-const TOKEN = "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";
+const TOKEN = "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";
 
 async function uploadFile() {
   const file = document.getElementById("fileInput").files[0];
@@ -95,7 +89,7 @@ function changePass() {
     return;
   }
   localStorage.setItem("upload_pass", newPass);
-  passMsg.innerHTML = "✅ رمز جدید ذخیره شد";
+  passMsg.innerHTML = "این گزینه فعلا غیر فعال یا توسط سازنده(فاضل) مسدود می‌باشد";
 }
 </script>
 </body>
